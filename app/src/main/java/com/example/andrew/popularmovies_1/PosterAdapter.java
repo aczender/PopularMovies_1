@@ -30,7 +30,7 @@ public class PosterAdapter extends ArrayAdapter<Poster> {
         Poster poster = getItem(position);
 
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.poster_images, parent,
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.activity_main_fragment, parent,
                     false);
         }
 
