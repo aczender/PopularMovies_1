@@ -12,11 +12,17 @@ import android.widget.TextView;
  */
 
 public class Poster {
-    String posterTitle;
-    int image;
 
-    public Poster (String pTitle, int image) {
-        this.posterTitle = pTitle;
+    private String image;
+
+    public Poster() {
+    }
+
+    public Poster(String image) {
         this.image = image;
+    }
+
+    public String getImage() {
+        return image;
     }
 }
