@@ -14,13 +14,11 @@ public class JsonUtils {
     public static Poster parsePosterJson(String json) {
         try {
             JSONObject root = new JSONObject(json);
-            JSONObject name = root.getJSONObject("name");
-
             String image = root.getString("image");
 
             return new Poster(image);
         } catch (JSONException e) {
-            Log.e("JsonUtils", "Problem parsing the sandwich JSON results", e);
+            Log.e("JsonUtils", "Problem parsing the movies JSON results", e);
         }
         return null;
     }

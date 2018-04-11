@@ -28,20 +28,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ImageView posterIv = findViewById(R.id.image_iv);
 
-        Picasso.Builder builder = new Picasso.Builder(this);
-        builder.listener(new Picasso.Listener()
-        {
-            @Override
-            public void onImageLoadFailed(Picasso picasso, Uri uri, Exception exception)
-            {
-                exception.printStackTrace();
-            }
-        });
-        builder.build().load("http://i.imgur.com/DvpvklR.png").into(posterIv);
+        GridView gridView = (GridView) findViewById(R.id.poster_gridview);
+        final PosterAdapter postersAdapter = new PosterAdapter(this, posters);
+        gridView.setAdapter(postersAdapter);
 
     }
+
+    private Poster[] posters = {
+            new Poster("http://i.imgur.com/DvpvklR.png")
+    };
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
