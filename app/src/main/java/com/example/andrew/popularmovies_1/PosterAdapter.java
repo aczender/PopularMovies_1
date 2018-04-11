@@ -56,7 +56,7 @@ public class PosterAdapter extends BaseAdapter {
         }
 
         final ViewHolder viewHolder = (ViewHolder)convertView.getTag();
-        viewHolder.posterImage.setImageResource(poster.getImage());
+        viewHolder.posterImage.setImageResource(0);
 
         Picasso.with(mContext).load(poster.getImage()).into(viewHolder.posterImage);
 
