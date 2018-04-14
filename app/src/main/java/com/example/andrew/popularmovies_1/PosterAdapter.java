@@ -4,24 +4,27 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-public class PosterAdapter extends BaseAdapter {
+import java.util.ArrayList;
 
-    private final Context mContext;
-    private final Poster[] posters;
+public class PosterAdapter extends ArrayAdapter<Poster> {
 
-    // 1
-    public PosterAdapter(Context context, Poster[] posters) {
-        this.mContext = context;
-        this.posters = posters;
+    static class ViewHolder {
+        private TextView image;
     }
 
-    // 2
+    // 1
+    public PosterAdapter(Context context, ArrayList<Poster> posters) {
+        super(context, 0, posters);
+    }
+
+   /* // 2
     @Override
     public int getCount() {
         return posters.length;
@@ -37,16 +40,33 @@ public class PosterAdapter extends BaseAdapter {
     @Override
     public Object getItem(int position) {
         return null;
-    }
+    }*/
 
     // 5
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        final Poster poster = posters[position];
+        View listItemView = convertView;
+
+        final Poster currentPoster = getItem(position);
+        ViewHolder holder;
 
 
         if (convertView == null) {
-            final LayoutInflater layoutInflater = LayoutInflater.from(mContext);
+            listItemView = LayoutInflater.from(getContext()).inflate(R.layout.poster_item, parent,
+            false);
+
+            holder = new ViewHolder();
+            holder.image = (TextView) listItemView.findViewById(R.id.poster_image);
+        } else {
+            holder = (ViewHolder) listItemView.getTag();
+        }
+
+        holder.image.setText(currentPoster.getImage());
+
+        return listItemView;
+    }
+}
+            /*final LayoutInflater layoutInflater = LayoutInflater.from(mContext);
             convertView = layoutInflater.inflate(R.layout.poster_item, null);
 
             final ImageView posterImage = (ImageView) convertView.findViewById(R.id.poster_image);
@@ -58,7 +78,7 @@ public class PosterAdapter extends BaseAdapter {
         final ViewHolder viewHolder = (ViewHolder)convertView.getTag();
         viewHolder.posterImage.setImageResource(0);
 
-        Picasso.with(mContext).load(poster.getImage()).into(viewHolder.posterImage);
+        Picasso.with(currentPoster).load(poster.getImage()).into(viewHolder.posterImage);
 
         return convertView;
     }
@@ -70,4 +90,4 @@ public class PosterAdapter extends BaseAdapter {
             this.posterImage = posterImage;
         }
     }
-}
+}*/
