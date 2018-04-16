@@ -2,9 +2,13 @@ package com.example.andrew.popularmovies_1;
 
 import android.app.LoaderManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.Loader;
 import android.media.Image;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.ParcelUuid;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,8 +19,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     private PosterAdapter mAdapter;
 
+    private ProgressBar mProgressbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,12 +64,35 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         final PosterAdapter postersAdapter = new PosterAdapter(this, new ArrayList<Poster>());
         gridView.setAdapter(postersAdapter);
 
+        View v = getLayoutInflater().inflate(R.layout.poster_item, null);
+
+        ImageView posterImage = (ImageView) v.findViewById(R.id.poster_image);
+
+        Picasso.with(this)
+                .load("http://image.tmdb.org/t/p/w185/")
+                .into(posterImage);
+
+        mProgressbar = (ProgressBar) findViewById(R.id.loading_indicator);
+
+        mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
+
+        if(isConnected()) {
+            LoaderManager loaderManager = getLoaderManager();
+            loaderManager.initLoader(POSTER_LOADER_ID, null, null);
+        } else {
+            mProgressbar.setVisibility(View.GONE);
+            mEmptyStateTextView.setText(R.string.no_internet);
+        }
+
     }
 
-    /*private Poster[] posters = {
-            new Poster("https://api.themoviedb" +
-                    ".org/3/movie/550?api_key=abaf8cd342d71956628f640100f60e27")
-    };*/
+    public boolean isConnected() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context
+                .CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return (networkInfo != null && networkInfo.isConnected());
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
