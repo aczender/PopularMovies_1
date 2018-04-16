@@ -34,8 +34,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     private static final String LOG_TAG = MainActivity.class.getName();
 
-    private static final String POSTER_REQUEST_URL = "https://api.themoviedb" +
-            ".org/3/movie/550?";
+    private static final String POSTER_REQUEST_URL = "https://image.tmdb" +
+            ".org/t/p/w500/8uO0gUM8aNqYLs1OsTBQiXu0fEv.jpg";
+
+            //"https://api.themoviedb" +
+            //".org/3/movie/550?";
 
     private static final int POSTER_LOADER_ID = 1;
 
@@ -72,13 +75,17 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 .load("http://image.tmdb.org/t/p/w185/")
                 .into(posterImage);
 
+        mAdapter = new PosterAdapter(this, new ArrayList<Poster>());
+
+        gridView.setAdapter(mAdapter);
+
         mProgressbar = (ProgressBar) findViewById(R.id.loading_indicator);
 
         mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
 
         if(isConnected()) {
             LoaderManager loaderManager = getLoaderManager();
-            loaderManager.initLoader(POSTER_LOADER_ID, null, null);
+            loaderManager.initLoader(POSTER_LOADER_ID, null, this);
         } else {
             mProgressbar.setVisibility(View.GONE);
             mEmptyStateTextView.setText(R.string.no_internet);
@@ -93,6 +100,34 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         return (networkInfo != null && networkInfo.isConnected());
     }
 
+    @Override
+    public Loader<List<Poster>> onCreateLoader(int i, Bundle bundle) {
+        String requestUrl = "";
+        if (mQuery != null && mQuery != "") {
+            requestUrl = POSTER_REQUEST_URL + mQuery;
+        } else {
+            String defaultQuery = "";
+            requestUrl = POSTER_REQUEST_URL + defaultQuery;
+        }
+        return new PosterLoader(this, requestUrl);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<List<Poster>> loader, List<Poster> posters) {
+
+        mEmptyStateTextView.setText(R.string.no_poster);
+        mProgressbar.setVisibility(View.GONE);
+        mAdapter.clear();
+
+        if (posters != null && !posters.isEmpty()) {
+            mAdapter.addAll(posters);
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<List<Poster>> loader) {
+        mAdapter.clear();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -112,32 +147,5 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public Loader<List<Poster>> onCreateLoader(int i, Bundle bundle) {
-        String requestUrl = "";
-        if (mQuery != null && mQuery != "") {
-            requestUrl = POSTER_REQUEST_URL + mQuery;
-        } else {
-            String defaultQuery = "";
-            requestUrl = POSTER_REQUEST_URL + defaultQuery;
-        }
-        return new PosterLoader(this, requestUrl);
-    }
-
-    @Override
-    public void onLoadFinished(Loader<List<Poster>> loader, List<Poster> posters) {
-        mEmptyStateTextView.setText(R.string.no_poster);
-        mAdapter.clear();
-
-        if (posters != null && !posters.isEmpty()) {
-            mAdapter.addAll(posters);
-        }
-    }
-
-    @Override
-    public void onLoaderReset(Loader<List<Poster>> loader) {
-        mAdapter.clear();
     }
 }
