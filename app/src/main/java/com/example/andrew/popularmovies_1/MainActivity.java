@@ -34,8 +34,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     private static final String LOG_TAG = MainActivity.class.getName();
 
-    private static final String POSTER_REQUEST_URL = "https://image.tmdb" +
-            ".org/t/p/w500/8uO0gUM8aNqYLs1OsTBQiXu0fEv.jpg";
+    private static final String POSTER_REQUEST_URL = "https://api.themoviedb" +
+            ".org/4/list/1?page=1&api_key=abaf8cd342d71956628f640100f60e27";
 
             //"https://api.themoviedb" +
             //".org/3/movie/550?";
