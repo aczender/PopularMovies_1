@@ -34,17 +34,17 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     private static final String LOG_TAG = MainActivity.class.getName();
 
-    private static final String POSTER_REQUEST_URL = "https://api.themoviedb" +
-            ".org/4/list/1?page=1&api_key=abaf8cd342d71956628f640100f60e27";
+    private static final String POSTER_REQUEST_URL = "http://api.themoviedb" +
+            ".org/3/movie/popular?api_key=abaf8cd342d71956628f640100f60e27";
 
             //"https://api.themoviedb" +
             //".org/3/movie/550?";
 
     private static final int POSTER_LOADER_ID = 1;
 
-    private static final String API_KEY = "api_key";
+   // private static final String API_KEY = "api_key";
 
-    private static final String KEY = "abaf8cd342d71956628f640100f60e27";
+   // private static final String KEY = "abaf8cd342d71956628f640100f60e27";
 
     private String mQuery;
 

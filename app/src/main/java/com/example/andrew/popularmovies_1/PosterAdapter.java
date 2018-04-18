@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,7 +17,7 @@ import java.util.ArrayList;
 public class PosterAdapter extends ArrayAdapter<Poster> {
 
     static class ViewHolder {
-        private TextView image;
+        private ImageView image;
     }
 
     // 1
@@ -56,12 +57,12 @@ public class PosterAdapter extends ArrayAdapter<Poster> {
             false);
 
             holder = new ViewHolder();
-            holder.image = (TextView) listItemView.findViewById(R.id.poster_image);
+            holder.image = (ImageView) listItemView.findViewById(R.id.poster_image);
         } else {
             holder = (ViewHolder) listItemView.getTag();
         }
 
-        holder.image.setText(currentPoster.getImage());
+        holder.image.setImageResource(currentPoster.getImage());
 
         return listItemView;
     }

@@ -3,6 +3,7 @@ package com.example.andrew.popularmovies_1;
 import android.media.Image;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.ImageView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -116,15 +117,17 @@ public class JsonUtils {
         try {
 
             JSONObject jsonObj = new JSONObject(jsonResponse);
-            JSONArray postersArray = jsonObj.getJSONArray("object");
+            JSONArray postersArray = jsonObj.getJSONArray("results");
 
-            if (jsonObj.has("object")) {
-                postersArray = jsonObj.getJSONArray("object");
+            if (jsonObj.has("results")) {
+                postersArray = jsonObj.getJSONArray("results");
             }
 
             for (int i = 0; i < postersArray.length(); i++) {
 
-                String url = jsonObj.getString("poster_path");
+                JSONObject firstPoster = postersArray.getJSONObject(0);
+
+                String url = firstPoster.getString("poster_path");
                 if (jsonObj.has("poster_path")) {
                     url = jsonObj.getString("poster_path");
                 }
