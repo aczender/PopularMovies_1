@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class PosterAdapter extends ArrayAdapter<Poster> {
 
     static class ViewHolder {
-        private ImageView image;
+        private ImageView imageTextView;
     }
 
     // 1
@@ -57,12 +57,12 @@ public class PosterAdapter extends ArrayAdapter<Poster> {
             false);
 
             holder = new ViewHolder();
-            holder.image = (ImageView) listItemView.findViewById(R.id.poster_image);
+            holder.imageTextView = listItemView.findViewById(R.id.poster_image);
         } else {
             holder = (ViewHolder) listItemView.getTag();
         }
 
-        holder.image.setImageResource(currentPoster.getImage());
+        holder.imageTextView.setImageResource(currentPoster.getImage());
 
         return listItemView;
     }

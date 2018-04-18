@@ -6,14 +6,14 @@ package com.example.andrew.popularmovies_1;
 
 public class Poster {
 
-    private String image;
+    private String mImage;
 
 
     public Poster(String image) {
-        this.image = image;
+        mImage = image;
     }
 
     public String getImage() {
-        return image;
+        return mImage;
     }
 }
