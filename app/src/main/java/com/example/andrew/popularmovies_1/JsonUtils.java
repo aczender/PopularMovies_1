@@ -112,7 +112,7 @@ public class JsonUtils {
             return null;
         }
 
-        ArrayList<Poster> posters = new ArrayList<>();
+        ArrayList<Poster> posters = new ArrayList<>(jsonResponse.length());
 
         try {
 
@@ -125,21 +125,22 @@ public class JsonUtils {
 
             for (int i = 0; i < postersArray.length(); i++) {
 
-                JSONObject firstPoster = postersArray.getJSONObject(0);
+                JSONObject firstPoster = postersArray.getJSONObject(i);
 
                 String url = firstPoster.getString("poster_path");
                 if (jsonObj.has("poster_path")) {
                     url = jsonObj.getString("poster_path");
                 }
 
-                Poster poster = new Poster(url);
+                //Poster poster = new Poster(url);
 
-                posters.add(poster);
+                //posters.add(poster);
             }
 
         } catch (JSONException e) {
             Log.e(LOG_TAG, "Problem parsing the poster JSON results", e);
         }
+
         return posters;
     }
 

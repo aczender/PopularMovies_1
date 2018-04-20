@@ -16,55 +16,37 @@ import java.util.ArrayList;
 
 public class PosterAdapter extends ArrayAdapter<Poster> {
 
-    static class ViewHolder {
-        private ImageView imageTextView;
+    private static class ViewHolder {
+        ImageView image;
     }
 
     // 1
     public PosterAdapter(Context context, ArrayList<Poster> posters) {
-        super(context, 0, posters);
+        super(context, R.layout.poster_item, posters);
     }
 
-   /* // 2
-    @Override
-    public int getCount() {
-        return posters.length;
-    }
-
-    // 3
-    @Override
-    public long getItemId(int position) {
-        return 0;
-    }
-
-    // 4
-    @Override
-    public Object getItem(int position) {
-        return null;
-    }*/
-
-    // 5
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View listItemView = convertView;
 
-        final Poster currentPoster = getItem(position);
-        ViewHolder holder;
-
+        Poster poster = getItem(position);
+        ViewHolder viewHolder;
 
         if (convertView == null) {
-            listItemView = LayoutInflater.from(getContext()).inflate(R.layout.poster_item, parent,
-            false);
-
-            holder = new ViewHolder();
-            holder.imageTextView = listItemView.findViewById(R.id.poster_image);
+            viewHolder = new ViewHolder();
+            LayoutInflater inflater = LayoutInflater.from(getContext());
+            convertView = inflater.inflate(R.layout.poster_item, parent, false);
+            viewHolder.image = (ImageView) convertView.findViewById(R.id.poster_image);
+            convertView.setTag(viewHolder);
         } else {
-            holder = (ViewHolder) listItemView.getTag();
+            viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        holder.imageTextView.setImageResource(currentPoster.getImage());
+        viewHolder.image.setImageResource(poster.image);
 
-        return listItemView;
+        Picasso.with(getContext()).load("http://image.tmdb.org/t/p/w185/").into(viewHolder
+                .image);
+
+        return convertView;
     }
 }
             /*final LayoutInflater layoutInflater = LayoutInflater.from(mContext);

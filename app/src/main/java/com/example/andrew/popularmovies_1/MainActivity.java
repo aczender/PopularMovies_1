@@ -71,9 +71,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         ImageView posterImage = (ImageView) v.findViewById(R.id.poster_image);
 
-        Picasso.with(this)
-                .load("http://image.tmdb.org/t/p/w185/")
-                .into(posterImage);
 
         mAdapter = new PosterAdapter(this, new ArrayList<Poster>());
 
