@@ -6,10 +6,10 @@ package com.example.andrew.popularmovies_1;
 
 public class Poster {
 
-    public int image;
+    public String image;
 
 
-    public Poster(int image) {
+    public Poster(String image) {
         this.image = image;
     }
 

@@ -112,7 +112,7 @@ public class JsonUtils {
             return null;
         }
 
-        ArrayList<Poster> posters = new ArrayList<>(jsonResponse.length());
+        ArrayList<Poster> posters = new ArrayList<>();
 
         try {
 
@@ -127,14 +127,14 @@ public class JsonUtils {
 
                 JSONObject firstPoster = postersArray.getJSONObject(i);
 
-                String url = firstPoster.getString("poster_path");
+                String imageUrl = firstPoster.getString("poster_path");
                 if (jsonObj.has("poster_path")) {
-                    url = jsonObj.getString("poster_path");
+                    imageUrl = jsonObj.getString("poster_path");
                 }
 
-                //Poster poster = new Poster(url);
+                Poster poster = new Poster(imageUrl);
 
-                //posters.add(poster);
+                posters.add(poster);
             }
 
         } catch (JSONException e) {

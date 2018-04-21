@@ -11,42 +11,47 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.util.ArrayList;
 
+import static com.example.andrew.popularmovies_1.R.layout.poster_item;
+
 public class PosterAdapter extends ArrayAdapter<Poster> {
 
-    private static class ViewHolder {
-        ImageView image;
+    static class ViewHolder {
+        private TextView imageTextView;
     }
 
     // 1
     public PosterAdapter(Context context, ArrayList<Poster> posters) {
-        super(context, R.layout.poster_item, posters);
+        super(context, 0, posters);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
+        View lisItemView = convertView;
         Poster poster = getItem(position);
         ViewHolder viewHolder;
 
         if (convertView == null) {
+            lisItemView = LayoutInflater.from(getContext()).inflate(R.layout.poster_item,parent,
+                    false);
+
             viewHolder = new ViewHolder();
-            LayoutInflater inflater = LayoutInflater.from(getContext());
-            convertView = inflater.inflate(R.layout.poster_item, parent, false);
-            viewHolder.image = (ImageView) convertView.findViewById(R.id.poster_image);
-            convertView.setTag(viewHolder);
+            viewHolder.imageTextView = (TextView) lisItemView.findViewById(R.id.poster_image);
+            lisItemView.setTag(viewHolder);
         } else {
-            viewHolder = (ViewHolder) convertView.getTag();
+            viewHolder = (ViewHolder) lisItemView.getTag();
         }
 
-        viewHolder.image.setImageResource(poster.image);
+        Picasso.with(getContext()).load("http://image.tmdb.org/t/p/w185/").into
+                (R.layout.poster_item);
 
-        Picasso.with(getContext()).load("http://image.tmdb.org/t/p/w185/").into(viewHolder
-                .image);
+        viewHolder.imageTextView.setText(poster.image);
 
-        return convertView;
+        return lisItemView;
     }
 }
             /*final LayoutInflater layoutInflater = LayoutInflater.from(mContext);
