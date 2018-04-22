@@ -1,9 +1,7 @@
 package com.example.andrew.popularmovies_1;
 
-import android.media.Image;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.ImageView;
 
 import org.json.JSONArray;
 import org.json.JSONException;

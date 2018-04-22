@@ -42,10 +42,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     private static final int POSTER_LOADER_ID = 1;
 
-   // private static final String API_KEY = "api_key";
-
-   // private static final String KEY = "abaf8cd342d71956628f640100f60e27";
-
     private String mQuery;
 
     private GridView gridView;
@@ -55,6 +51,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private PosterAdapter mAdapter;
 
     private ProgressBar mProgressbar;
+
+    private ImageView posterImage;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,10 +66,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         final PosterAdapter postersAdapter = new PosterAdapter(this, new ArrayList<Poster>());
         gridView.setAdapter(postersAdapter);
 
-        View v = getLayoutInflater().inflate(R.layout.poster_item, null);
-
-        ImageView posterImage = (ImageView) v.findViewById(R.id.poster_image);
-
+        posterImage = (ImageView) findViewById(R.id.poster_image);
 
         mAdapter = new PosterAdapter(this, new ArrayList<Poster>());
 
@@ -87,7 +83,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             mProgressbar.setVisibility(View.GONE);
             mEmptyStateTextView.setText(R.string.no_internet);
         }
-
     }
 
     public boolean isConnected() {
