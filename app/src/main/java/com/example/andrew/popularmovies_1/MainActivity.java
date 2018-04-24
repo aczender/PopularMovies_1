@@ -37,9 +37,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private static final String POSTER_REQUEST_URL = "http://api.themoviedb" +
             ".org/3/movie/popular?api_key=abaf8cd342d71956628f640100f60e27";
 
-            //"https://api.themoviedb" +
-            //".org/3/movie/550?";
-
     private static final int POSTER_LOADER_ID = 1;
 
     private String mQuery;
@@ -52,7 +49,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     private ProgressBar mProgressbar;
 
-    private ImageView posterImage;
 
 
     @Override
@@ -66,7 +62,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         final PosterAdapter postersAdapter = new PosterAdapter(this, new ArrayList<Poster>());
         gridView.setAdapter(postersAdapter);
 
-        posterImage = (ImageView) findViewById(R.id.poster_image);
 
         mAdapter = new PosterAdapter(this, new ArrayList<Poster>());
 

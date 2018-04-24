@@ -38,11 +38,11 @@ public class PosterAdapter extends ArrayAdapter<Poster> {
         } else {
             holder = (ViewHolder) lisItemView.getTag();
         }
-        holder.image.setImageResource(Integer.parseInt(currentPoster.getImage()));
+        holder.image.setImageResource(0);
 
         Picasso.with(getContext())
-                .load("http://image.tmdb.org/t/p/w185/")
-                .into((Target) currentPoster);
+                .load("http://image.tmdb.org/t/p/w185//nBNZadXqJSdt05SHLqgT0HuC5Gm.jpg ")
+                .into(holder.image);
 
         return lisItemView;
     }
