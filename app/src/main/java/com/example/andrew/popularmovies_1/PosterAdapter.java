@@ -8,11 +8,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Request;
 import com.squareup.picasso.Target;
 
 import java.util.ArrayList;
 
 public class PosterAdapter extends ArrayAdapter<Poster> {
+
 
     static class ViewHolder {
         private ImageView image;
@@ -29,6 +31,7 @@ public class PosterAdapter extends ArrayAdapter<Poster> {
         final Poster currentPoster = getItem(position);
         ViewHolder holder;
 
+
         if (convertView == null) {
             lisItemView = LayoutInflater.from(getContext()).inflate(R.layout.poster_item, parent,
                     false);
@@ -40,8 +43,10 @@ public class PosterAdapter extends ArrayAdapter<Poster> {
         }
         holder.image.setImageResource(0);
 
+
         Picasso.with(getContext())
-                .load("http://image.tmdb.org/t/p/w185//nBNZadXqJSdt05SHLqgT0HuC5Gm.jpg ")
+                //.load("http://image.tmdb.org/t/p/w185//nBNZadXqJSdt05SHLqgT0HuC5Gm.jpg ")
+                .load(JsonUtils.extractFeatureFromJson()
                 .into(holder.image);
 
         return lisItemView;

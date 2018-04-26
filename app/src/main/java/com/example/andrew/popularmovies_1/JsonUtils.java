@@ -104,7 +104,7 @@ public class JsonUtils {
         return output.toString();
     }
 
-    private static ArrayList<Poster> extractFeatureFromJson(String jsonResponse) {
+    public static ArrayList<Poster> extractFeatureFromJson(String jsonResponse) {
 
         if (TextUtils.isEmpty(jsonResponse)) {
             return null;
