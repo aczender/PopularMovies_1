@@ -8,38 +8,37 @@
     android:padding="8dp">
 
 
+    <ImageView
+        android:id="@+id/thumbnail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:contentDescription="Movie poster"/>
+
     <TextView
-        android:id="@+id/title"
+        android:id="@+id/title_tv"
         style="@style/TextAppearance.AppCompat.Large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="Movie Title"/>
 
 
-    <ImageView
-        android:id="@+id/thumbnail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"/>
-
-
     <TextView
-        android:id="@+id/plot_synopsis"
+        android:id="@+id/plot_synopsis_tv"
         style="@style/TextAppearance.AppCompat.Large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="from the api"/>
 
     <TextView
-        android:id="@+id/user_rating"
+        android:id="@+id/user_rating_iv"
         style="@style/TextAppearance.AppCompat.Large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="from the api as well"/>
 
-    <!-- Humidity  -->
     <TextView
-        android:id="@+id/release_date"
+        android:id="@+id/release_date_tv"
         style="@style/TextAppearance.AppCompat.Large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

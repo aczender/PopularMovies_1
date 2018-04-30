@@ -43,10 +43,8 @@ public class PosterAdapter extends ArrayAdapter<Poster> {
         }
         holder.image.setImageResource(0);
 
-
         Picasso.with(getContext())
-                //.load("http://image.tmdb.org/t/p/w185//nBNZadXqJSdt05SHLqgT0HuC5Gm.jpg ")
-                .load(JsonUtils.extractFeatureFromJson()
+                .load("http://image.tmdb.org/t/p/w185" + currentPoster.getImage())
                 .into(holder.image);
 
         return lisItemView;

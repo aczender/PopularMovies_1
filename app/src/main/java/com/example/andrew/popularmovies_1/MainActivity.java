@@ -17,10 +17,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.squareup.picasso.Picasso;
@@ -66,6 +68,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         mAdapter = new PosterAdapter(this, new ArrayList<Poster>());
 
         gridView.setAdapter(mAdapter);
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                launchDetailActivity(position);
+            }
+        });
 
         mProgressbar = (ProgressBar) findViewById(R.id.loading_indicator);
 
@@ -101,13 +109,16 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public void onLoadFinished(Loader<List<Poster>> loader, List<Poster> posters) {
-
-        mEmptyStateTextView.setText(R.string.no_poster);
         mProgressbar.setVisibility(View.GONE);
         mAdapter.clear();
 
         if (posters != null && !posters.isEmpty()) {
             mAdapter.addAll(posters);
+        }
+    }
+    protected void onPostExecute(Loader<List<Poster>> loader, List<Poster> posters) {
+        if (posters != null) {
+            Toast.makeText(getApplicationContext(),R.string.no_poster, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -134,5 +145,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void launchDetailActivity(int position) {
+        Intent intent = new Intent(this, DetailActivity.class);
+        intent.putExtra(DetailActivity.EXTRA_POSITION, position);
+        startActivity(intent);
     }
 }

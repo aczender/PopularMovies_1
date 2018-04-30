@@ -129,8 +129,13 @@ public class JsonUtils {
                 if (jsonObj.has("poster_path")) {
                     imageUrl = jsonObj.getString("poster_path");
                 }
+                String titleUrl = firstPoster.getString("title");
+                String synopsisUrl = firstPoster.getString("overview");
+                int ratingUrl = firstPoster.getInt("vote_average");
+                String releaseUrl = firstPoster.getString("release_date");
 
-                Poster poster = new Poster(imageUrl);
+
+                Poster poster = new Poster(imageUrl,titleUrl,synopsisUrl,ratingUrl,releaseUrl);
 
                 posters.add(poster);
             }
