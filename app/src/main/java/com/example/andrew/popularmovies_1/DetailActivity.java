@@ -10,10 +10,16 @@ import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 import com.example.andrew.popularmovies_1.JsonUtils;
 
+import org.json.JSONArray;
+
+import java.util.ArrayList;
+
 public class DetailActivity extends AppCompatActivity {
 
     public static final String EXTRA_POSITION = "extra_position";
     private static final int DEFAULT_POSITION = -1;
+
+    private PosterAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +32,6 @@ public class DetailActivity extends AppCompatActivity {
         if (intent == null) {
             closeOnError();
         }
-
         int position = intent.getIntExtra(EXTRA_POSITION, DEFAULT_POSITION);
         if (position == DEFAULT_POSITION) {
             // EXTRA_POSITION not found in intent
@@ -34,10 +39,10 @@ public class DetailActivity extends AppCompatActivity {
             return;
         }
 
-        String[] details = getResources().getStringArray(R.array.sandwich_details);
-        String json = details[position];
+        String[] details = getResources().;
+        String jsonResponse = details[position];
         Poster poster = null;
-        poster = JsonUtils.extractFeatureFromJson(json);
+        poster = JsonUtils.extractFeatureFromJson();
 
         if (poster == null) {
             // Poster data unavailable
