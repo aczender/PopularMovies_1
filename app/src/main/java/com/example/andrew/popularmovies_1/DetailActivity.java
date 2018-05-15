@@ -33,7 +33,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderCallbacks
 
     private DetailAdapter dAdapter;
 
-    private ProgressBar mProgressbar;
+    private ProgressBar dProgressbar;
 
     private String mQuery;
 
@@ -61,14 +61,14 @@ public class DetailActivity extends AppCompatActivity implements LoaderCallbacks
         listView.setAdapter(dAdapter);
 
 
-        mProgressbar = (ProgressBar) findViewById(R.id.loading_indicator);
+        dProgressbar = (ProgressBar) findViewById(R.id.loading_indicator_detail);
 
 
         if (isConnected()) {
             LoaderManager loaderManager = getLoaderManager();
             loaderManager.initLoader(POSTER_LOADER_ID, null, this);
         } else {
-            mProgressbar.setVisibility(View.GONE);
+            dProgressbar.setVisibility(View.GONE);
         }
     }
 
@@ -93,7 +93,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderCallbacks
 
     @Override
     public void onLoadFinished(Loader<List<Poster>> loader, List<Poster> posters) {
-        //mProgressbar.setVisibility(View.GONE);
+        dProgressbar.setVisibility(View.GONE);
         dAdapter.clear();
 
         if (posters != null && !posters.isEmpty()) {

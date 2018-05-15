@@ -27,7 +27,7 @@ public class DetailAdapter extends ArrayAdapter<Poster> {
         final Poster currentPoster = getItem(position);
 
         if (lisItemView == null) {
-            lisItemView = LayoutInflater.from(getContext()).inflate(R.layout.detail_activity, parent,
+            lisItemView = LayoutInflater.from(getContext()).inflate(R.layout.detail_layout, parent,
                     false);
         }
 
