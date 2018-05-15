@@ -6,40 +6,41 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Request;
 import com.squareup.picasso.Target;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PosterAdapter extends ArrayAdapter<Poster> {
 
+    private static final String LOG_TAG = PosterAdapter.class.getName();
 
+    public PosterAdapter(Context context, List<Poster> posters) {
+        super(context, 0, posters);
+    }
     static class ViewHolder {
         private ImageView image;
-    }
-
-    public PosterAdapter(Context context, ArrayList<Poster> posters) {
-        super(context, 0, posters);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        View lisItemView = convertView;
+        View listItemView = convertView;
         final Poster currentPoster = getItem(position);
         ViewHolder holder;
 
-
         if (convertView == null) {
-            lisItemView = LayoutInflater.from(getContext()).inflate(R.layout.poster_item, parent,
-                    false);
+            listItemView = LayoutInflater.from(getContext()).inflate(R.layout.poster_item,
+            parent, false);
             holder = new ViewHolder();
-            holder.image = (ImageView) lisItemView.findViewById(R.id.poster_image);
-            lisItemView.setTag(holder);
+            holder.image = (ImageView) listItemView.findViewById(R.id.poster_image);
+            listItemView.setTag(holder);
         } else {
-            holder = (ViewHolder) lisItemView.getTag();
+            holder = (ViewHolder) listItemView.getTag();
         }
         holder.image.setImageResource(0);
 
@@ -47,6 +48,6 @@ public class PosterAdapter extends ArrayAdapter<Poster> {
                 .load("http://image.tmdb.org/t/p/w185" + currentPoster.getImage())
                 .into(holder.image);
 
-        return lisItemView;
+        return listItemView;
     }
 }

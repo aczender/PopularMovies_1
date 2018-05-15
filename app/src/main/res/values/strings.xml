@@ -4,4 +4,17 @@
     <string name="rating">Highest rated</string>
     <string name="no_poster">No poster found</string>
     <string name="no_internet">There is no internet connection</string>
+
+    <string name="details_title">Movie Details</string>
+    <string name="settings_title">Movie Settings</string>
+
+    <string name="settings_order_by_label">Order By</string>
+    <string name="settings_order_by_key" translatable="false">order_by</string>
+    <string name="settings_order_by_default" translatable="false">Order By Default</string>
+
+    <string name="settings_order_by_popular_label">Most popular</string>
+    <string name="settings_order_by_popular_value" translatable="false">popular</string>
+
+    <string name="settings_order_by_rate_label">Highest rated</string>
+    <string name="settings_order_by_rate_value" translatable="false">time</string>
 </resources>

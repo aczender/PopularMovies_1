@@ -1,9 +1,11 @@
 package com.example.andrew.popularmovies_1;
 
 import android.app.LoaderManager;
+import android.app.LoaderManager.LoaderCallbacks;
 import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
+import android.graphics.Movie;
 import android.media.Image;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -32,18 +34,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Poster>>{
+public class MainActivity extends AppCompatActivity implements LoaderCallbacks<List<Poster>> {
 
     private static final String LOG_TAG = MainActivity.class.getName();
 
-    private static final String POSTER_REQUEST_URL = "http://api.themoviedb" +
+    private static final String MOVIE_REQUEST_URL = "http://api.themoviedb" +
             ".org/3/movie/popular?api_key=abaf8cd342d71956628f640100f60e27";
 
     private static final int POSTER_LOADER_ID = 1;
-
-    private String mQuery;
-
-    private GridView gridView;
 
     private TextView mEmptyStateTextView;
 
@@ -51,6 +49,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     private ProgressBar mProgressbar;
 
+    private String mQuery;
+
+    private GridView gridView;
 
 
     @Override
@@ -58,8 +59,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         GridView gridView = findViewById(R.id.poster_gridview);
+
+        mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
+        gridView.setEmptyView(mEmptyStateTextView);
 
         final PosterAdapter postersAdapter = new PosterAdapter(this, new ArrayList<Poster>());
         gridView.setAdapter(postersAdapter);
@@ -69,15 +72,15 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         gridView.setAdapter(mAdapter);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                Poster currentPoster = mAdapter.getItem(position);
                 launchDetailActivity(position);
             }
         });
 
         mProgressbar = (ProgressBar) findViewById(R.id.loading_indicator);
 
-        mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
+
 
         if(isConnected()) {
             LoaderManager loaderManager = getLoaderManager();
@@ -99,10 +102,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public Loader<List<Poster>> onCreateLoader(int i, Bundle bundle) {
         String requestUrl = "";
         if (mQuery != null && mQuery != "") {
-            requestUrl = POSTER_REQUEST_URL + mQuery;
+            requestUrl = MOVIE_REQUEST_URL + mQuery;
         } else {
             String defaultQuery = "";
-            requestUrl = POSTER_REQUEST_URL + defaultQuery;
+            requestUrl = MOVIE_REQUEST_URL + defaultQuery;
         }
         return new PosterLoader(this, requestUrl);
     }
@@ -147,9 +150,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         return super.onOptionsItemSelected(item);
     }
 
-    private void launchDetailActivity(int position) {
-        Intent intent = new Intent(this, DetailActivity.class);
-        intent.putExtra(DetailActivity.EXTRA_POSITION, position);
-        startActivity(intent);
+        private void launchDetailActivity(int position) {
+            Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+            intent.putExtra(DetailActivity.EXTRA_POSITION, position);
+            startActivity(intent);
+        }
     }
-}

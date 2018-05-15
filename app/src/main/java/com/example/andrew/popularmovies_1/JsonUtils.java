@@ -16,6 +16,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Andrew on 2018.04.04..
@@ -29,7 +30,7 @@ public class JsonUtils {
 
     }
 
-    public static ArrayList<Poster> fetchPosterData(String requestUrl) {
+    public static List<Poster> fetchPosterData(String requestUrl) {
 
         URL url = createUrl(requestUrl);
         String jsonResponse = null;
@@ -39,7 +40,7 @@ public class JsonUtils {
         } catch (IOException e) {
             Log.e(LOG_TAG, "Problem making HTTP request", e);
         }
-        ArrayList<Poster> posters = extractFeatureFromJson(jsonResponse);
+        List<Poster> posters = extractFeatureFromJson(jsonResponse);
         return posters;
     }
 
@@ -104,26 +105,26 @@ public class JsonUtils {
         return output.toString();
     }
 
-    public static ArrayList<Poster> extractFeatureFromJson(String jsonResponse) {
+    private static List<Poster> extractFeatureFromJson(String jsonResponse) {
 
         if (TextUtils.isEmpty(jsonResponse)) {
             return null;
         }
 
-        ArrayList<Poster> posters = new ArrayList<>();
+        List<Poster> posters = new ArrayList<>();
 
         try {
 
             JSONObject jsonObj = new JSONObject(jsonResponse);
-            JSONArray postersArray = jsonObj.getJSONArray("results");
+            JSONArray posterArray = jsonObj.getJSONArray("results");
 
             if (jsonObj.has("results")) {
-                postersArray = jsonObj.getJSONArray("results");
+                posterArray = jsonObj.getJSONArray("results");
             }
 
-            for (int i = 0; i < postersArray.length(); i++) {
+            for (int i = 0; i < posterArray.length(); i++) {
 
-                JSONObject firstPoster = postersArray.getJSONObject(i);
+                JSONObject firstPoster = posterArray.getJSONObject(i);
 
                 String imageUrl = firstPoster.getString("poster_path");
                 if (jsonObj.has("poster_path")) {
