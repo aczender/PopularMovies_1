@@ -3,12 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <ListView
-        android:id="@+id/detail_listview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
 
     <ImageView
         android:id="@+id/thumbnail"
@@ -17,11 +14,13 @@
         android:adjustViewBounds="true"
         android:contentDescription="Movie poster"/>
 
+
     <TextView
         android:id="@+id/title_tv"
         style="@style/TextAppearance.AppCompat.Large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/thumbnail"
         tools:text="Movie Title"/>
 
 
@@ -30,6 +29,7 @@
         style="@style/TextAppearance.AppCompat.Large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/title_tv"
         tools:text="from the api"/>
 
     <TextView
@@ -37,6 +37,7 @@
         style="@style/TextAppearance.AppCompat.Large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/plot_synopsis_tv"
         tools:text="from the api as well"/>
 
     <TextView
@@ -44,6 +45,7 @@
         style="@style/TextAppearance.AppCompat.Large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/user_rating_iv"
         tools:text="from somewhere"/>
 
     <ProgressBar

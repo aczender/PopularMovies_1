@@ -19,18 +19,20 @@ public class DetailAdapter extends ArrayAdapter<Poster> {
     public DetailAdapter (Context context, List<Poster> posters) {
         super(context, 0, posters);
     }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
         View lisItemView = convertView;
+        final Poster currentPoster = getItem(position);
 
         if (lisItemView == null) {
-            lisItemView = LayoutInflater.from(getContext()).inflate(R.layout.activity_detail, parent,
+            lisItemView = LayoutInflater.from(getContext()).inflate(R.layout.detail_activity, parent,
                     false);
         }
-        Poster currentPoster = getItem(position);
 
         ImageView thumbnailView = (ImageView) lisItemView.findViewById(R.id.thumbnail);
+        if (currentPoster.getImage() != null)
         Picasso.with(getContext())
                 .load("http://image.tmdb.org/t/p/w185" + currentPoster.getImage())
                 .into(thumbnailView);

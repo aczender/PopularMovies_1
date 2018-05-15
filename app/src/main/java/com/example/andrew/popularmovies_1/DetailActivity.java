@@ -47,9 +47,9 @@ public class DetailActivity extends AppCompatActivity implements LoaderCallbacks
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail);
+        setContentView(R.layout.detail_activity);
 
-        ListView listView = findViewById(R.id.detail_listview);
+        ListView listView = findViewById(R.id.detail_elements);
 
 
         final DetailAdapter detailsAdapter = new DetailAdapter(this, new ArrayList<Poster>());
@@ -93,7 +93,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderCallbacks
 
     @Override
     public void onLoadFinished(Loader<List<Poster>> loader, List<Poster> posters) {
-        mProgressbar.setVisibility(View.GONE);
+        //mProgressbar.setVisibility(View.GONE);
         dAdapter.clear();
 
         if (posters != null && !posters.isEmpty()) {
