@@ -133,10 +133,12 @@ public class JsonUtils {
                 String titleUrl = firstPoster.getString("title");
                 String synopsisUrl = firstPoster.getString("overview");
                 int ratingUrl = firstPoster.getInt("vote_average");
+                double popularUrl = firstPoster.getDouble("popularity");
                 String releaseUrl = firstPoster.getString("release_date");
 
 
-                Poster poster = new Poster(imageUrl,titleUrl,synopsisUrl,ratingUrl,releaseUrl);
+                Poster poster = new Poster(imageUrl,titleUrl,synopsisUrl,ratingUrl,popularUrl,
+                        releaseUrl);
 
                 posters.add(poster);
             }

@@ -5,12 +5,14 @@ import android.app.LoaderManager.LoaderCallbacks;
 import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.graphics.Movie;
 import android.media.Image;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.ParcelUuid;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -38,10 +40,12 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
 
     private static final String LOG_TAG = MainActivity.class.getName();
 
-    private static final String MOVIE_REQUEST_URL = "http://api.themoviedb" +
-            ".org/3/movie/popular?api_key=abaf8cd342d71956628f640100f60e27";
-
+    private static final String MOVIE_REQUEST_URL = "https://api.themoviedb" +
+            ".org/3/discover/movie?";
     private static final int POSTER_LOADER_ID = 1;
+    private static final String API_KEY = "api_key";
+    private static final String KEY = "abaf8cd342d71956628f640100f60e27";
+
 
     private TextView mEmptyStateTextView;
 
@@ -81,8 +85,7 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
         mProgressbar = (ProgressBar) findViewById(R.id.loading_indicator);
 
 
-
-        if(isConnected()) {
+        if (isConnected()) {
             LoaderManager loaderManager = getLoaderManager();
             loaderManager.initLoader(POSTER_LOADER_ID, null, this);
         } else {
@@ -100,7 +103,23 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
 
     @Override
     public Loader<List<Poster>> onCreateLoader(int i, Bundle bundle) {
-        String requestUrl = "";
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String orderBy = sharedPrefs.getString(
+                getString(R.string.settings_order_by_key),
+                getString(R.string.settings_order_by_default)
+        );
+
+        Uri baseUri = Uri.parse(MOVIE_REQUEST_URL);
+        Uri.Builder uriBuilder = baseUri.buildUpon();
+
+        uriBuilder.appendQueryParameter(API_KEY, KEY);
+        uriBuilder.appendPath("&sort_by=popularity.desc");
+        //uriBuilder.appendPath("sort_by=popularity.desc");
+        uriBuilder.appendQueryParameter("orderby", orderBy);
+
+        return new PosterLoader(this, uriBuilder.toString());
+    }
+        /*String requestUrl = "";
         if (mQuery != null && mQuery != "") {
             requestUrl = MOVIE_REQUEST_URL + mQuery;
         } else {
@@ -108,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
             requestUrl = MOVIE_REQUEST_URL + defaultQuery;
         }
         return new PosterLoader(this, requestUrl);
-    }
+    }*/
 
     @Override
     public void onLoadFinished(Loader<List<Poster>> loader, List<Poster> posters) {
@@ -119,9 +138,10 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
             mAdapter.addAll(posters);
         }
     }
+
     protected void onPostExecute(Loader<List<Poster>> loader, List<Poster> posters) {
         if (posters != null) {
-            Toast.makeText(getApplicationContext(),R.string.no_poster, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), R.string.no_poster, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -140,19 +160,18 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.sort_popular) {
-            return true;
-        }
-        if (id == R.id.sort_rate) {
+        if (id == R.id.action_settings) {
+            Intent settingsIntent = new Intent(this, SettingsActivity.class);
+            startActivity(settingsIntent);
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-        private void launchDetailActivity(int position) {
-            Intent intent = new Intent(MainActivity.this, DetailActivity.class);
-            intent.putExtra(DetailActivity.EXTRA_POSITION, position);
-            startActivity(intent);
-        }
+    private void launchDetailActivity(int position) {
+        Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+        intent.putExtra(DetailActivity.EXTRA_POSITION, position);
+        startActivity(intent);
     }
+}
