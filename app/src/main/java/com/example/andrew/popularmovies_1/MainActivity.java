@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
     private static final String KEY = "abaf8cd342d71956628f640100f60e27";
 
 
+
     private TextView mEmptyStateTextView;
 
     private PosterAdapter mAdapter;
@@ -84,8 +85,12 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
 
         mProgressbar = (ProgressBar) findViewById(R.id.loading_indicator);
 
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context
+                .CONNECTIVITY_SERVICE);
 
-        if (isConnected()) {
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+
+        if (networkInfo != null && networkInfo.isConnected()) {
             LoaderManager loaderManager = getLoaderManager();
             loaderManager.initLoader(POSTER_LOADER_ID, null, this);
         } else {
@@ -94,17 +99,10 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
         }
     }
 
-    public boolean isConnected() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context
-                .CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-        return (networkInfo != null && networkInfo.isConnected());
-    }
-
     @Override
     public Loader<List<Poster>> onCreateLoader(int i, Bundle bundle) {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String orderBy = sharedPrefs.getString(
+        String sortBy = sharedPrefs.getString(
                 getString(R.string.settings_order_by_key),
                 getString(R.string.settings_order_by_default)
         );
@@ -113,9 +111,8 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
         Uri.Builder uriBuilder = baseUri.buildUpon();
 
         uriBuilder.appendQueryParameter(API_KEY, KEY);
-        uriBuilder.appendPath("&sort_by=popularity.desc");
-        //uriBuilder.appendPath("sort_by=popularity.desc");
-        uriBuilder.appendQueryParameter("orderby", orderBy);
+        uriBuilder.appendQueryParameter("sort_by", sortBy);
+        //uriBuilder.appendQueryParameter("sort_by", "vote_average");
 
         return new PosterLoader(this, uriBuilder.toString());
     }

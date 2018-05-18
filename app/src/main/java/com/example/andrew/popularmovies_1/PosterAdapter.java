@@ -33,7 +33,7 @@ public class PosterAdapter extends ArrayAdapter<Poster> {
         final Poster currentPoster = getItem(position);
         ViewHolder holder;
 
-        if (convertView == null) {
+        if (listItemView == null) {
             listItemView = LayoutInflater.from(getContext()).inflate(R.layout.poster_item,
             parent, false);
             holder = new ViewHolder();
