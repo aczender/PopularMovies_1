@@ -3,9 +3,11 @@ package com.example.andrew.popularmovies_1;
 import android.app.LoaderManager;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.Context;
+import android.content.Intent;
 import android.content.Loader;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.v4.app.ShareCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -18,12 +20,11 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class DetailActivity extends AppCompatActivity implements LoaderCallbacks<List<Poster>> {
 
     private static final String LOG_TAG = DetailActivity.class.getName();
 
-    private static final String MOVIE_REQUEST_URL = "http://api.themoviedb" +
+    private static final String DETAIL_REQUEST_URL = "http://api.themoviedb" +
             ".org/3/movie/popular?api_key=abaf8cd342d71956628f640100f60e27";
 
     public static final String EXTRA_POSITION = "extra_position";
@@ -83,10 +84,10 @@ public class DetailActivity extends AppCompatActivity implements LoaderCallbacks
     public Loader<List<Poster>> onCreateLoader(int i, Bundle bundle) {
         String requestUrl = "";
         if (mQuery != null && mQuery != "") {
-            requestUrl = MOVIE_REQUEST_URL + mQuery;
+            requestUrl = DETAIL_REQUEST_URL + mQuery;
         } else {
             String defaultQuery = "";
-            requestUrl = MOVIE_REQUEST_URL + defaultQuery;
+            requestUrl = DETAIL_REQUEST_URL + defaultQuery;
         }
         return new PosterLoader(this, requestUrl);
     }

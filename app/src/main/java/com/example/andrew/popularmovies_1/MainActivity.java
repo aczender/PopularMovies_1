@@ -99,6 +99,15 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
         }
     }
 
+    public void onClick(String movieDetail) {
+        Context context = this;
+        Class destinationClass = DetailActivity.class;
+        Intent intentToStartDetailActivity = new Intent(context, destinationClass);
+        intentToStartDetailActivity.putExtra(Intent.EXTRA_TEXT, movieDetail);
+        startActivity(intentToStartDetailActivity);
+    }
+
+
     @Override
     public Loader<List<Poster>> onCreateLoader(int i, Bundle bundle) {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -112,7 +121,6 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
 
         uriBuilder.appendQueryParameter(API_KEY, KEY);
         uriBuilder.appendQueryParameter("sort_by", sortBy);
-        //uriBuilder.appendQueryParameter("sort_by", "vote_average");
 
         return new PosterLoader(this, uriBuilder.toString());
     }
