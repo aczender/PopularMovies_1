@@ -2,115 +2,80 @@ package com.example.andrew.popularmovies_1;
 
 import android.app.LoaderManager;
 import android.app.LoaderManager.LoaderCallbacks;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
+import android.graphics.Movie;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.support.v4.app.ShareCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
-public class DetailActivity extends AppCompatActivity implements LoaderCallbacks<List<Poster>> {
+import org.parceler.Parcels;
+
+public class DetailActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = DetailActivity.class.getName();
 
-    private static final String DETAIL_REQUEST_URL = "http://api.themoviedb" +
+    private static final String MOVIE_REQUEST_URL = "http://api.themoviedb" +
             ".org/3/movie/popular?api_key=abaf8cd342d71956628f640100f60e27";
 
     public static final String EXTRA_POSITION = "extra_position";
-    private static final int DEFAULT_POSITION = -1;
-
-    private static final int POSTER_LOADER_ID = 1;
-
-    private DetailAdapter dAdapter;
 
     private ProgressBar dProgressbar;
 
     private String mQuery;
+
+    private Poster mPoster;
 
     private ImageView mThumbnail;
     private TextView mTitle;
     private TextView mSynopsis;
     private TextView mRelease;
 
-    private ListView listView;
+    //private ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detail_activity);
 
-        ListView listView = findViewById(R.id.detail_elements);
 
-
-        final DetailAdapter detailsAdapter = new DetailAdapter(this, new ArrayList<Poster>());
-        listView.setAdapter(detailsAdapter);
-
-
-        dAdapter = new DetailAdapter(this, new ArrayList<Poster>());
-
-        listView.setAdapter(dAdapter);
-
-
-        dProgressbar = (ProgressBar) findViewById(R.id.loading_indicator_detail);
-
-
-        if (isConnected()) {
-            LoaderManager loaderManager = getLoaderManager();
-            loaderManager.initLoader(POSTER_LOADER_ID, null, this);
+        if (getIntent().hasExtra(EXTRA_POSITION)) {
+            mPoster = getIntent().getParcelableExtra(EXTRA_POSITION);
         } else {
-            dProgressbar.setVisibility(View.GONE);
+            throw new IllegalArgumentException("Parcelable");
         }
+
+
+        mThumbnail = (ImageView) findViewById(R.id.thumbnail);
+        mTitle = (TextView) findViewById(R.id.title);
+        mSynopsis = (TextView) findViewById(R.id.synopsis);
+        mRelease = (TextView) findViewById(R.id.releaseDate);
+
+        mTitle.setText(mPoster.getTitle());
+        mSynopsis.setText(mPoster.getSynopsis());
+        mRelease.setText(mPoster.getReleaseDate());
+        Picasso.with(this)
+                .load(mPoster.getImage())
+                .into(mThumbnail);
     }
-
-    public boolean isConnected() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context
-                .CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-        return (networkInfo != null && networkInfo.isConnected());
-    }
-
-    @Override
-    public Loader<List<Poster>> onCreateLoader(int i, Bundle bundle) {
-        String requestUrl = "";
-        if (mQuery != null && mQuery != "") {
-            requestUrl = DETAIL_REQUEST_URL + mQuery;
-        } else {
-            String defaultQuery = "";
-            requestUrl = DETAIL_REQUEST_URL + defaultQuery;
-        }
-        return new PosterLoader(this, requestUrl);
-    }
-
-    @Override
-    public void onLoadFinished(Loader<List<Poster>> loader, List<Poster> posters) {
-        dProgressbar.setVisibility(View.GONE);
-        dAdapter.clear();
-
-        if (posters != null && !posters.isEmpty()) {
-            dAdapter.addAll(posters);
-        }
-    }
-
-    protected void onPostExecute(Loader<List<Poster>> loader, List<Poster> posters) {
-        if (posters != null) {
-            Toast.makeText(getApplicationContext(), R.string.no_poster, Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    @Override
-    public void onLoaderReset(Loader<List<Poster>> loader) {
-        dAdapter.clear();
-    }
-
 }

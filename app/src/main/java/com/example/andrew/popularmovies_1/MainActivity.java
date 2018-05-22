@@ -16,12 +16,15 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -32,6 +35,8 @@ import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
+import org.parceler.Parcels;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +45,8 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
 
     private static final String LOG_TAG = MainActivity.class.getName();
 
+    public static final String MOVIE_OBJECT_FOR_PARCEL = "movie_object";
+
     private static final String MOVIE_REQUEST_URL = "https://api.themoviedb" +
             ".org/3/discover/movie?";
     private static final int POSTER_LOADER_ID = 1;
@@ -47,12 +54,12 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
     private static final String KEY = "abaf8cd342d71956628f640100f60e27";
 
 
-
     private TextView mEmptyStateTextView;
 
     private PosterAdapter mAdapter;
 
     private ProgressBar mProgressbar;
+    private RecyclerView mRecyclerView;
 
     private String mQuery;
 
@@ -77,8 +84,9 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
 
         gridView.setAdapter(mAdapter);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                Poster currentPoster = mAdapter.getItem(position);
+                //Poster currentPoster = mAdapter.getItem(position);
                 launchDetailActivity(position);
             }
         });
@@ -99,15 +107,11 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
         }
     }
 
-    public void onClick(String movieDetail) {
-        Context context = this;
-        Class destinationClass = DetailActivity.class;
-        Intent intentToStartDetailActivity = new Intent(context, destinationClass);
-        intentToStartDetailActivity.putExtra(Intent.EXTRA_TEXT, movieDetail);
-        startActivity(intentToStartDetailActivity);
+    private void launchDetailActivity(int position) {
+        Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+        intent.putExtra(DetailActivity.EXTRA_POSITION, position);
+        startActivity(intent);
     }
-
-
     @Override
     public Loader<List<Poster>> onCreateLoader(int i, Bundle bundle) {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -124,15 +128,6 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
 
         return new PosterLoader(this, uriBuilder.toString());
     }
-        /*String requestUrl = "";
-        if (mQuery != null && mQuery != "") {
-            requestUrl = MOVIE_REQUEST_URL + mQuery;
-        } else {
-            String defaultQuery = "";
-            requestUrl = MOVIE_REQUEST_URL + defaultQuery;
-        }
-        return new PosterLoader(this, requestUrl);
-    }*/
 
     @Override
     public void onLoadFinished(Loader<List<Poster>> loader, List<Poster> posters) {
@@ -174,9 +169,5 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
         return super.onOptionsItemSelected(item);
     }
 
-    private void launchDetailActivity(int position) {
-        Intent intent = new Intent(MainActivity.this, DetailActivity.class);
-        intent.putExtra(DetailActivity.EXTRA_POSITION, position);
-        startActivity(intent);
-    }
+
 }

@@ -1,11 +1,14 @@
 package com.example.andrew.popularmovies_1;
 
+import android.os.Parcelable;
+
 /**
  * Created by Andrew on 2018.03.31..
  */
 
 public class Poster {
 
+    private int posterId;
     private String image;
     private String title;
     private String synopsis;
@@ -14,9 +17,10 @@ public class Poster {
     private String releaseDate;
 
 
-    public Poster (String image, String title, String synopsis, int userRating, double
+    public Poster (int posterId, String image, String title, String synopsis, int userRating, double
             popularity, String
             releaseDate) {
+        this.posterId = posterId;
         this.image = image;
         this.title = title;
         this.synopsis = synopsis;
@@ -25,6 +29,9 @@ public class Poster {
         this.releaseDate = releaseDate;
     }
 
+    public int getPosterId() {
+        return posterId;
+    }
     public String getImage() {
         return image;
     }

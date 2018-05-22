@@ -18,5 +18,5 @@
 
     <string name="settings_order_by_rate_label">Highest rated</string>
     <string name="settings_order_by_rate_value" translatable="false">vote_average.desc</string>
-
+    <string name="some_title">Titlesomething</string>
 </resources>

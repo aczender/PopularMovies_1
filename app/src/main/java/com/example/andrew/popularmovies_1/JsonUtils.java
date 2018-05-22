@@ -40,7 +40,7 @@ public class JsonUtils {
         } catch (IOException e) {
             Log.e(LOG_TAG, "Problem making HTTP request", e);
         }
-        List<Poster> posters = extractFeatureFromJson(jsonResponse);
+        List<Poster> posters = parsePosterJson(jsonResponse);
         return posters;
     }
 
@@ -105,7 +105,7 @@ public class JsonUtils {
         return output.toString();
     }
 
-    private static List<Poster> extractFeatureFromJson(String jsonResponse) {
+    private static List<Poster> parsePosterJson(String jsonResponse) {
 
         if (TextUtils.isEmpty(jsonResponse)) {
             return null;
@@ -126,6 +126,7 @@ public class JsonUtils {
 
                 JSONObject firstPoster = posterArray.getJSONObject(i);
 
+                int idUrl = firstPoster.optInt("id");
                 String imageUrl = firstPoster.getString("poster_path");
                 if (jsonObj.has("poster_path")) {
                     imageUrl = jsonObj.getString("poster_path");
@@ -137,7 +138,8 @@ public class JsonUtils {
                 String releaseUrl = firstPoster.getString("release_date");
 
 
-                Poster poster = new Poster(imageUrl,titleUrl,synopsisUrl,ratingUrl,popularUrl,
+                Poster poster = new Poster(idUrl, imageUrl,titleUrl,synopsisUrl,ratingUrl,
+                        popularUrl,
                         releaseUrl);
 
                 posters.add(poster);

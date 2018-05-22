@@ -4,13 +4,13 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.support.v7.widget.RecyclerView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Request;
-import com.squareup.picasso.Target;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,4 +50,5 @@ public class PosterAdapter extends ArrayAdapter<Poster> {
 
         return listItemView;
     }
+
 }
