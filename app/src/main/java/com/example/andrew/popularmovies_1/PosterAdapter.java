@@ -1,54 +1,76 @@
 package com.example.andrew.popularmovies_1;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.support.v7.widget.RecyclerView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class PosterAdapter extends ArrayAdapter<Poster> {
 
     private static final String LOG_TAG = PosterAdapter.class.getName();
 
+    private final Context context;
+    private final List<Poster> posters;
+
     public PosterAdapter(Context context, List<Poster> posters) {
         super(context, 0, posters);
+        this.context = context;
+        this.posters = posters;
     }
-    static class ViewHolder {
-        private ImageView image;
+
+
+    @Override
+    public View getView(final int position, View convertView, ViewGroup parent) {
+
+        final Poster posters = getItem(position);
+
+
+        if (convertView == null) {
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.poster_item,
+                    parent, false);
+        }
+
+        ImageView imageView = (ImageView) convertView.findViewById(R.id.poster_image);
+        Picasso.with(getContext())
+                .load("http://image.tmdb.org/t/p/w185" + posters.getImage())
+                .into(imageView);
+
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, DetailActivity.class);
+                Bundle extras = new Bundle();
+                extras.putString("title", posters.getTitle());
+                extras.putString("thumbnail", posters.getImage());
+                extras.putString("synopsis", posters.getSynopsis());
+                extras.putInt("rating", posters.getUserRating());
+                extras.putString("releaseDate", posters.getReleaseDate());
+                intent.putExtras(extras);
+
+                context.startActivity(intent);
+
+            }
+        });
+
+        return convertView;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public int getCount() {
+        return super.getCount();
+    }
 
-        View listItemView = convertView;
-        final Poster currentPoster = getItem(position);
-        ViewHolder holder;
-
-        if (listItemView == null) {
-            listItemView = LayoutInflater.from(getContext()).inflate(R.layout.poster_item,
-            parent, false);
-            holder = new ViewHolder();
-            holder.image = (ImageView) listItemView.findViewById(R.id.poster_image);
-            listItemView.setTag(holder);
-        } else {
-            holder = (ViewHolder) listItemView.getTag();
-        }
-        holder.image.setImageResource(0);
-
-        Picasso.with(getContext())
-                .load("http://image.tmdb.org/t/p/w185" + currentPoster.getImage())
-                .into(holder.image);
-
-        return listItemView;
+    @Override
+    public int getPosition(Poster item) {
+        return super.getPosition(item);
     }
 
 }

@@ -126,7 +126,7 @@ public class JsonUtils {
 
                 JSONObject firstPoster = posterArray.getJSONObject(i);
 
-                int idUrl = firstPoster.optInt("id");
+                String idUrl = firstPoster.getString("id");
                 String imageUrl = firstPoster.getString("poster_path");
                 if (jsonObj.has("poster_path")) {
                     imageUrl = jsonObj.getString("poster_path");
