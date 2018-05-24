@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.support.v4.app.ShareCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -26,6 +27,7 @@ import com.squareup.picasso.Picasso;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -33,49 +35,37 @@ import org.parceler.Parcels;
 
 public class DetailActivity extends AppCompatActivity {
 
-    private static final String LOG_TAG = DetailActivity.class.getName();
-
-    private static final String MOVIE_REQUEST_URL = "http://api.themoviedb" +
-            ".org/3/movie/popular?api_key=abaf8cd342d71956628f640100f60e27";
-
     public static final String EXTRA_POSITION = "extra_position";
 
-    private ProgressBar dProgressbar;
-
-    private String mQuery;
-
-    private Poster mPoster;
-
-    private ImageView mThumbnail;
-    private TextView mTitle;
-    private TextView mSynopsis;
-    private TextView mRelease;
-
-    //private ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detail_activity);
 
+        Intent intent = getIntent();
 
-        if (getIntent().hasExtra(EXTRA_POSITION)) {
-            mPoster = getIntent().getParcelableExtra(EXTRA_POSITION);
-        } else {
-            throw new IllegalArgumentException("Parcelable");
-        }
+        String title = intent.getStringExtra("title");
+        String thumbnail = intent.getStringExtra("thumbnail");
+        String synopsis = intent.getStringExtra("synopsis");
+        int rating = intent.getIntExtra("rating", 1);
+        String releaseDate = intent.getStringExtra("releaseDate");
 
+        TextView mTitle = (TextView) findViewById(R.id.title);
+        TextView mSynopsis = (TextView) findViewById(R.id.synopsis);
+        TextView mRating = (TextView) findViewById(R.id.rating);
+        TextView mReleaseDate = (TextView) findViewById(R.id.releaseDate);
 
-        mThumbnail = (ImageView) findViewById(R.id.thumbnail);
-        mTitle = (TextView) findViewById(R.id.title);
-        mSynopsis = (TextView) findViewById(R.id.synopsis);
-        mRelease = (TextView) findViewById(R.id.releaseDate);
+        mTitle.setText(title);
+        mSynopsis.setText(synopsis);
+        mRating.setText("" + rating);
+        mReleaseDate.setText(releaseDate);
 
-        mTitle.setText(mPoster.getTitle());
-        mSynopsis.setText(mPoster.getSynopsis());
-        mRelease.setText(mPoster.getReleaseDate());
-        Picasso.with(this)
-                .load(mPoster.getImage())
+        ImageView mThumbnail = (ImageView) findViewById(R.id.thumbnail);
+        Picasso.with(getBaseContext())
+                .load("http://image.tmdb.org/t/p/w185" + thumbnail)
                 .into(mThumbnail);
+
+
     }
 }

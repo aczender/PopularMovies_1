@@ -6,46 +6,32 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
 import android.content.SharedPreferences;
-import android.graphics.Movie;
-import android.media.Image;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.os.ParcelUuid;
 import android.preference.PreferenceManager;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
-
-import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity implements LoaderCallbacks<List<Poster>> {
+
+
+public class MainActivity extends AppCompatActivity implements
+        LoaderCallbacks<List<Poster>> {
 
     private static final String LOG_TAG = MainActivity.class.getName();
-
-    public static final String MOVIE_OBJECT_FOR_PARCEL = "movie_object";
 
     private static final String MOVIE_REQUEST_URL = "https://api.themoviedb" +
             ".org/3/discover/movie?";
@@ -60,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
 
     private ProgressBar mProgressbar;
     private RecyclerView mRecyclerView;
+    private String main;
 
     private String mQuery;
 
@@ -71,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        GridView gridView = findViewById(R.id.poster_gridview);
+        final GridView gridView = findViewById(R.id.poster_gridview);
 
         mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
         gridView.setEmptyView(mEmptyStateTextView);
@@ -85,8 +72,9 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
         gridView.setAdapter(mAdapter);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                //Poster currentPoster = mAdapter.getItem(position);
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                Intent intent = new Intent(getApplicationContext(), DetailActivity.class);
+                mAdapter.getItem(position);
                 launchDetailActivity(position);
             }
         });
@@ -110,7 +98,6 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
     private void launchDetailActivity(int position) {
         Intent intent = new Intent(MainActivity.this, DetailActivity.class);
         intent.putExtra(DetailActivity.EXTRA_POSITION, position);
-        startActivity(intent);
     }
     @Override
     public Loader<List<Poster>> onCreateLoader(int i, Bundle bundle) {
