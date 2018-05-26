@@ -33,8 +33,7 @@ public class MainActivity extends AppCompatActivity implements
 
     private static final String LOG_TAG = MainActivity.class.getName();
 
-    private static final String MOVIE_REQUEST_URL = "https://api.themoviedb" +
-            ".org/3/discover/movie?";
+    private static final String MOVIE_REQUEST_URL = "https://api.themoviedb.org/3/movie";
     private static final int POSTER_LOADER_ID = 1;
     private static final String API_KEY = "api_key";
     private static final String KEY = "abaf8cd342d71956628f640100f60e27";
@@ -109,9 +108,8 @@ public class MainActivity extends AppCompatActivity implements
 
         Uri baseUri = Uri.parse(MOVIE_REQUEST_URL);
         Uri.Builder uriBuilder = baseUri.buildUpon();
-
+        uriBuilder.appendPath(sortBy);
         uriBuilder.appendQueryParameter(API_KEY, KEY);
-        uriBuilder.appendQueryParameter("sort_by", sortBy);
 
         return new PosterLoader(this, uriBuilder.toString());
     }

@@ -14,9 +14,9 @@
     <string name="settings_order_by_default" translatable="false">@string/settings_order_by_popular_value</string>
 
     <string name="settings_order_by_popular_label">Most popular</string>
-    <string name="settings_order_by_popular_value" translatable="false">popularity.desc</string>
+    <string name="settings_order_by_popular_value" translatable="false">popular</string>
 
     <string name="settings_order_by_rate_label">Highest rated</string>
-    <string name="settings_order_by_rate_value" translatable="false">vote_average.desc</string>
+    <string name="settings_order_by_rate_value" translatable="false">top_rated</string>
     <string name="some_title">Titlesomething</string>
 </resources>
